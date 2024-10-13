@@ -3,21 +3,16 @@
 
 // Find the greatest common divisor of the two integers, n and m.
 int gcd_euclid(int n, int m) {
-
     if (n < m) {
-        int tmp;
+        int tmp = m;
+        m = n;
         n = tmp;
+    }
+    while (m != 0) {
+        int r = n % m;
         n = m;
-        m = tmp;
+        m = r;
     }
-    int i = 1;
-    int gcd;
-    while (i <= n) {
-        if (n%i == 0 && m%i == 0)
-            gcd = i;
-        i = i+1;
-    }
-
-
+    
     return n;
 }
