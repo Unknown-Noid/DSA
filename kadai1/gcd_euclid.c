@@ -13,6 +13,5 @@ int gcd_euclid(int n, int m) {
         n = m;
         m = r;
     }
-    
     return n;
 }

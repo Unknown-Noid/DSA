@@ -1,0 +1,63 @@
+\documentclass{ltjsarticle}
+
+\usepackage{listings, xcolor}
+
+\lstset{
+    basicstyle = {\ttfamily}, % 基本的なフォントスタイル
+    frame = {tbrl}, % 枠線の枠線。t: top, b: bottom, r: right, l: left
+    breaklines = true, % 長い行の改行
+    numbers = left, % 行番号の表示。left, right, none
+    showspaces = false, % スペースの表示
+    showstringspaces = false, % 文字列中のスペースの表示
+    showtabs = false, %　タブの表示
+    keywordstyle = \color{blue}, % キーワードのスタイル。intやwhileなど
+    commentstyle = {\color[HTML]{1AB91A}}, % コメントのスタイル
+    identifierstyle = \color{black}, % 識別子のスタイル　関数名や変数名
+    stringstyle = \color{brown}, % 文字列のスタイル
+    captionpos = t % キャプションの位置 t: 上、b: 下
+}
+\renewcommand{\lstlistingname}{プログラム}
+
+\begin{document}
+
+\title{データ構造とアルゴリズム実験レポート\\
+課題：最大公約数を求めるアルゴリズム}
+\author{202110796 4クラス 高橋大粋}
+\date{締切日:2024年10月16日\\
+\today}
+\maketitle
+
+\section{基本課題}
+この課題では、教科書リスト1.4(p.7)の「ユークリッドの互除法」に基づいたCプログラムgcd\_euclid.cを
+作成し、作成したプログラムと教科書リスト1.1(p.3)の「最大公約数を求める素朴なアルゴリズム」に基づ
+いたCプログラムgcd\_iter.cのリストおよび実行結果を示した。 
+\subsection{gcd\_euclid.cの作成}
+\subsubsection{実装の方針}\label{subsubsec:実装の方針}
+まず、ユークリッドの互除法を実行するための機能をgcd\_euclid関数に、実行結果を表示するための機能をmain関数
+に記述し、それぞれ実装した。main関数は別ファイルmain\_euclid.cに実装した。また、main関数は、int型データn,
+mをコマンドライン引数で渡すことによって動作する。もし、引数が2つ以外ならエラーを出力する。gcd\_euclid関数
+では入力されたn, mの大小関係を固定するために大きい方の数をnにする処理を実装してある。これにより、ユークリ
+ッドの互除法を行いやすくなる。
+\subsubsection{実装コードおよびコードの説明}
+プログラム\ref{code:one}に、gcd\_euclid.cの主要部分を示す。\ref{subsubsec:実装の方針}で述べた、大きい方
+の数をnにする処理は2~6行目の部分に相当する。\\
+gcd\_euclid関数は整数型の引数を2つ取り、ユークリッドの互除法に基づき、nをmで割った余りがrのとき、nにmを代入、
+mにrを代入してnをmで割り、この操作をmが0になるまで繰り返す。m=0のとき、nの値が最大公約数となるのでint型のnを
+返す。mian関数では、コマンドラインで入力されたn, m, そしてgcd\_euclid関数で計算された最大公約数gcdの3つの値
+が出力される。
+\begin{lstlisting}[caption=gcd\_euclid.cの主要部, label=code:one, language=C]
+int gcd_euclid(int n, int m) {
+  if (n < m) {
+      int tmp = m;
+      m = n;
+      n = tmp;
+  }
+  while (m != 0) {
+      int r = n % m;
+      n = m;
+      m = r;
+  }
+  return n;
+}
+\end{lstlisting}
+\end{document}
