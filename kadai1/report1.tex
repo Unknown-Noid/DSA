@@ -14,7 +14,7 @@
     commentstyle = {\color[HTML]{1AB91A}}, % コメントのスタイル
     identifierstyle = \color{black}, % 識別子のスタイル　関数名や変数名
     stringstyle = \color{brown}, % 文字列のスタイル
-    captionpos = t % キャプションの位置 t: 上、b: 下
+    captionpos = b % キャプションの位置 t: 上、b: 下
 }
 \renewcommand{\lstlistingname}{プログラム}
 
@@ -32,15 +32,15 @@
 作成し、作成したプログラムと教科書リスト1.1(p.3)の「最大公約数を求める素朴なアルゴリズム」に基づ
 いたCプログラムgcd\_iter.cのリストおよび実行結果を示した。 
 \subsection{gcd\_euclid.cの作成}
-\subsubsection{実装の方針}\label{subsubsec:実装の方針}
+\subsubsection{実装の方針}\label{subsubsec:実装の方針1}
 まず、ユークリッドの互除法を実行するための機能をgcd\_euclid関数に、実行結果を表示するための機能をmain関数
 に記述し、それぞれ実装した。main関数は別ファイルmain\_euclid.cに実装した。また、main関数は、int型データn,
 mをコマンドライン引数で渡すことによって動作する。もし、引数が2つ以外ならエラーを出力する。gcd\_euclid関数
 では入力されたn, mの大小関係を固定するために大きい方の数をnにする処理を実装してある。これにより、ユークリ
 ッドの互除法を行いやすくなる。
-\subsubsection{実装コードおよびコードの説明}
-プログラム\ref{code:one}に、gcd\_euclid.cの主要部分を示す。\ref{subsubsec:実装の方針}で述べた、大きい方
-の数をnにする処理は2~6行目の部分に相当する。\\
+\subsubsection{実装コードおよびコードの説明}\label{subsubsec:実装コード及びコードの説明1}
+プログラム\ref{code:one}に、gcd\_euclid.cの主要部分を示す。\ref{subsubsec:実装の方針1}で述べた、大きい方
+の数をnにする処理は2～6行目の部分に相当する。\\ \indent
 gcd\_euclid関数は整数型の引数を2つ取り、ユークリッドの互除法に基づき、nをmで割った余りがrのとき、nにmを代入、
 mにrを代入してnをmで割り、この操作をmが0になるまで繰り返す。m=0のとき、nの値が最大公約数となるのでint型のnを
 返す。mian関数では、コマンドラインで入力されたn, m, そしてgcd\_euclid関数で計算された最大公約数gcdの3つの値
@@ -60,4 +60,92 @@ int gcd_euclid(int n, int m) {
   return n;
 }
 \end{lstlisting}
+\subsubsection{実行結果}\label{subsubsec:実行結果1}
+まず、gcd\_euclid.cを以下のmakeコマンドを実行してコンパイルし、引数として、自然数24, 36を与えて実行する。
+\begin{lstlisting}
+PS C:\Users\daiki\Desktop\DSA\kadai1> make
+gcc   gcd_iter.o main_iter.o   -o gcd_iter
+gcc   gcd_euclid.o main_euclid.o   -o gcd_euclid
+gcc   gcd_recursive.o main_recursive.o   -o gcd_recursive
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_euclid 24 36
+The GCD of 24 and 36 is 12.
+\end{lstlisting}
+5行目の第一コマンドライン引数の24, 第二コマンドライン引数の36はそれぞれn, mに相当する。すなわち、このプログラムは
+自然数n, mの最大公約数をユークリッドの互除法に基づき計算した結果gcdとn, mを標準出力している。次に、コマンドライン引数が
+2つ以外のときのプログラムの挙動を確認する。
+\begin{lstlisting}
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_euclid 10
+Usage: C:\Users\daiki\Desktop\DSA\kadai1\gcd_euclid.exe <number1> <number2>
+\end{lstlisting}
+コマンドライン引数が2つ以外のときは、プログラム名と引数が2つ必要だという意味のエラーメッセージが標準出力されている。こ
+れにより、「ユークリッドの互除法」に基づいたCプログラムgcd\_euclidが正しく実装されている事が確認できる。\\ \indent
+次に授業で配布されたcプログラムgcd\_iterのプログラムの挙動も確認する。gcd\_iterはユークリッドの互除法を使わず、自然数n, m
+を1から順に割っていき、n, mを両方同時に割れたときの数を最大公約数gcdとするプログラムである。
+\begin{lstlisting}
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_iter 15 30
+The GCD of 15 and 30 is 15.
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_iter 15
+Usage: C:\Users\daiki\Desktop\DSA\kadai1\gcd_iter.exe <number1> <number2>
+\end{lstlisting}
+gcd\_euclidと同様にコマンドライン引数が2つのときにはn, m, gcdを出力し、それ以外のときはエラーメッセージを出力する。
+gcd\_euclidとgcd\_iterはプログラムの中身は違うが動作そのものは同じである。
+\subsubsection{考察}
+gcd\_iterはforループの回数がn回で固定なのに対し、gcd\_euclidはnの値に依存し、$\frac{n}{2}$回以下であるので、計算量の面
+でみるとgcd\_euclidのほうが優れたアルゴリズムであると言える。また、今回は引数を2つしか取らなかったが、ユークリッドの互除法
+を繰り返し使うことにより、3つ以上の自然数を引数に持つプログラムを実装することも容易であると考えられる。
+\section{発展課題}
+この課題では、基本課題で作成したgcd\_euclid.cとgcd\_iter.cについて、それぞれの計算量（時間計算量、領域計算量）を議論した。
+また、gcd\_euclidを、再帰的アルゴリズム（教科書p.14）に基づいて書き換えたgcd\_recursive.cを実装し、プログラムがどのように
+動作するかを基本課題と同様に説明した。
+\subsection{計算量について}
+一般に、時間計算量はループの回数に依存する。gcd\_iterはforループの回数がn回で固定なので計算量は$O(n)$となる。gcd\_euclid
+は$n = mq+r$と$q \geq 1$より、$n-r = mq \geq m > r$となり、$r < \frac{n}{2}$が成り立つ。rの値はwhileループの2回の繰り返しのあとに
+新たなnとして取り扱われるため、ループを2周するごとに、nの値を半分未満の値にできることになる。したがって、最も回数が多い場合
+でも、$2\lfloor \log_2 n \rfloor - 1$回の繰り返しで、r=0となり、計算が終了する。したがって、計算量は$O(\log n)$となる。
+時間計算量を比較すると、ユークリッドの互除法の基づいたプログラムの方が時間計算量のオーダーが低く、優れていることがわかる。\\ \indent
+領域計算量はアルゴリズムの実行に必要なコンピュータのメモリを表す計算の複雑さのことであり、たくさんの変数をメモリ内に保持するアルゴリズムは、
+領域計算量が大きく、あまりメモリを使わなければ領域計算量は小さいと言える。gcd\_iterもgcd\_euclidも領域計算量は$O(1)$である。近年では
+コンピュータのメモリが十分に増えたことにより領域計算量よりも時間計算量が重視されている。よって計算量はユークリッドの互除法に基づいた
+プログラムのほうが優れている。
+\subsection{gcd\_recursive.cの作成}
+\subsubsection{実装の方針}\label{subsubsec:実装の方針2}
+まず、gcd\_euclid関数を、再帰的アルゴリズム（教科書p.14）に基づきいて書き換えたgcd\_recursive関数を実装した。その計算結果を表示するためのプログラムは
+授業で配布されたmain\_recursive.cである。gcd\_recursiveもgcd\_euclidと同様に引数として自然数を2つ取り、その最大公約数を出力する。違うのは関数内で自らを呼び出す
+再帰を使用しているところだ。再帰的アルゴリズムは構造そのものに再帰性が見られるデータ構造に対する操作や、計算過程が漸化式を用いて定義できるような処理などに
+非常にマッチしている。
+\subsubsection{実装コードおよびコードの説明}
+プログラム\ref{code:two}に、gcd\_recursive.cの主要部分を示す。\ref{subsubsec:実装の方針2}で述べた、再帰を使用しているのは9行目
+の部分に相当する。\\ \indent
+gcd\_recursive関数は\ref{subsubsec:実装コード及びコードの説明1}で述べたgcd\_euclid関数同様の処理を再帰を用いて実装した。9行目で
+nにmを、mにn\%mを代入して再帰している。これにより、剰余の変数rを用いずにユークリッドの互除法を実装できた。
+mian関数では、コマンドラインで入力されたn, m, そしてgcd\_recursive関数で計算された最大公約数gcdの3つの値
+が出力される。
+\begin{lstlisting}[caption=gcd\_recursive.cの主要部, label=code:two, language=C]
+if (n < m) {
+    int tmp = m;
+    m = n;
+    n = tmp;
+}
+if (m == 0) { 
+    return n;
+} else {
+    return gcd_recursive(m, n%m);
+}
+return n;
+\end{lstlisting}
+\subsubsection{実行結果}
+\ref{subsubsec:実行結果1}と同様にmakeコマンドを実行してコンパイルし、コマンドライン引数として、自然数18, 54を与えて実行する。
+また、引数が2つ以外の場合の挙動も確認する。
+\begin{lstlisting}
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_recursive 18 54
+The GCD of 18 and 54 is 18.
+PS C:\Users\daiki\Desktop\DSA\kadai1> ./gcd_recursive 2
+Usage: C:\Users\daiki\Desktop\DSA\kadai1\gcd_recursive.exe <number1> <number2>   
+\end{lstlisting}
+第一コマンドライン引数の18, 第二コマンドライン引数の54がそれぞれn, mに相当しgcd\_recursiveに渡され、計算された最大公約数gcdが
+n, mとともに標準出力されている。また、コマンドライン引数が2つ以外の場合にはエラーを出力しているのでgcd\_recursiveは正しく実装され
+ていることが確認できる。
+\subsubsection{考察}
+再帰的アルゴリズムは、うまく利用すると非常に簡潔で理解しやすいプログラムを実装できるが、計算量という点では非再帰的アルゴリズムよりも
+悪いことが多い。そのため、n重のforループや計算過程が煩雑な場合に限定して再帰的アルゴリズムを利用するのが良いと考える。
 \end{document}

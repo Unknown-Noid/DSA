@@ -14,7 +14,5 @@ int gcd_recursive(int n, int m) {
     } else {
         return gcd_recursive(m, n%m);
     }
-
-
     return n;
 }
