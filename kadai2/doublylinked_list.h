@@ -17,4 +17,9 @@ void DeleteCell(Cell *this_cell);
 Cell *SearchCell(Cell *this_cell, int d);
 void Display(Cell *this_cell);
 
+void ReadFromArray(Cell *head, int arr[], int size);
+void WriteToArray(Cell *head, int arr[], int *size);
+void ReadFromFile(Cell *head, const char *filename);
+void WriteToFile(Cell *head, const char *filename);
+
 #endif  // INCLUDE_GUARD_DOUBLYLINKED_LIST_H
