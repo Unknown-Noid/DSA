@@ -15,7 +15,9 @@
     identifierstyle = \color{black}, % 識別子のスタイル　関数名や変数名
     stringstyle = \color{brown}, % 文字列のスタイル
     captionpos = b % キャプションの位置 t: 上、b: 下
+    literate={_}{\_}1 % アンダースコアのエスケープ
 }
+\renewcommand{\lstlistingname}{プログラム}
 
 \begin{document}
 
@@ -23,7 +25,7 @@
 課題：連結リスト,スタック,キュー}
 \author{202110796 4クラス 高橋大粋}
 \date{締切日:2024年10月28日\\
-\today}
+2024年10月28日}
 \maketitle
 
 \section{基本課題}
@@ -33,13 +35,13 @@
 \subsubsection{実装の方針}\label{subsubsec:実装の方針1}
 まず、連結リストの機能としてセルpの直後に新しいセルを挿入するinsert\_cell(), リストの先頭に新しいセルを挿入する
 insert\_cell\_top(), セルpの直後のセルを削除するdelete\_cell(), リスト先頭のセルを削除するdelete\_cell\_top(), リストの要素を順に
-標準出力するdisplay()をlinked_list.cに実装した。また、main関数は別ファイルmain\_linked\_list.cに実装した。
+標準出力するdisplay()をlinked\_list.cに実装した。また、main関数は別ファイルmain\_linked\_list.cに実装した。
 \subsubsection{実装コードおよびコードの説明}\label{subsubsec:実装コードおよびコードの説明1}
 プログラム\ref{code:one}に、linked\_list.cの主要部を示す。 \\ \indent
 void insert\_cell(Cell *p, int d)関数は入力としてセルへのポインタpとint型のデータdを受け取り、新しいセルnew\_cellを作成し、
-new_cellのデータ部にdを、ポインタ部にpが指すポインタ部を代入する。そしてpが指すセルのポインタ部にnew_cellのアドレス
+new\_cellのデータ部にdを、ポインタ部にpが指すポインタ部を代入する。そしてpが指すセルのポインタ部にnew\_cellのアドレス
 を代入することでセルpの直後に新しいセルを挿入する。2行目ではCellサイズ分のメモリ領域を動的に確保し、そのアドレスを
-ポインタnew_cellに格納している。void insert\_cell\_top(int d)関数はinsert\_cell()関数と内容は殆ど同じだが、「pが指す
+ポインタnew\_cellに格納している。void insert\_cell\_top(int d)関数はinsert\_cell()関数と内容は殆ど同じだが、「pが指す
 セルのポインタ部」を先頭セルのアドレスであるheadに置き換えることでリストの先頭に新しいセルを挿入する。
 void delete\_cell(Cell *p)関数は入力としてセルへのポインタpを受け取り、セルへのポインタqにpが指すセルのポインタ部を
 代入し、pが指すセルのポインタ部にqが指すセルのポインタ部を代入し、qが指すセルが使用している主記憶領域を開放することで、セルp
@@ -48,7 +50,7 @@ qが指すセルのポインタ部を代入し、qが指すセルが使用して
 void display(void)関数はセルへのポインタcurrentに先頭セルへのポインタheadを代入して、currentが指すデータ部をprintf()
 関数でコマンドラインに出力する。そしてcurrentにcurrentが指すセルのポインタ部を代入することで直後のセルへ移動する。
 これをcurrentがNULLになるまで繰り返し、改行する。
-\begin{lstlisting}[caption=linked\_list.cの主要部, label=code:one, language=C]
+\begin{lstlisting}[caption=linked\_list.cの主要部, label=code:one, language=C, captionpos = b]
 void insert_cell(Cell *p, int d) {
     Cell *new_cell = (Cell*)malloc(sizeof(Cell));
     new_cell->data = d;
@@ -124,9 +126,9 @@ cell\_top()でリストの先頭セルを削除し、display()でリストの要
 \subsection{キューの実装}
 \subsubsection{実装の方針}\label{subsubsec:実装の方針2}
 まず、リングバッファのキューの機能としてサイズlenのキューを作成・初期化し、処理が完了したらQueue created!を標準出力し、
-Queue型のポインタを返すcreate_queue(), キューに整数を格納するenqueue(), キューから整数を取り出す
+Queue型のポインタを返すcreate\_queue(), キューに整数を格納するenqueue(), キューから整数を取り出す
 dequeue(), キューの要素を先頭から順に出力するdisplay(), キューを破棄し、処理が完了したらQueue deleted!を標準出力
-するdelete_queue()をqueue.cに実装した。また、main関数は別ファイルmain\_queue.cに実装した。
+するdelete\_queue()をqueue.cに実装した。また、main関数は別ファイルmain\_queue.cに実装した。
 \subsubsection{実装コードおよびコードの説明}\label{subsubsec:実装コードおよびコードの説明2}
 プログラム\ref{code:two}に、queue.cの主要部を示す。\\ \indent
 Queue *create\_queue(int len)関数は引数にint型のlenを受け取り、キューqのlengthにlenを、frontとrearに-1を代入
@@ -140,7 +142,7 @@ int型dataにfrontの指す位置のデータを代入し、frontとrearが同�
 ポインタqを取り、もしキューが空なら標準エラーを出し、そうでなければfrontからrearまでのキューの要素をprintfで
 標準出力し、処理が終わったら改行する。void delete\_queue(Queue *q)関数は引数にQueue型のポインタqを取り、qがNULL
 でなければqの配列とqの主記憶領域を開放し、printfでQueue deleted!を標準出力する。
-\begin{lstlisting}[caption=queue.cの主要部, label=code:two, language=C]
+\begin{lstlisting}[caption=queue.cの主要部, label=code:two, language=C,captionpos = b]
 Queue *create_queue(int len) {
     Queue *q = (Queue *)malloc(sizeof(Queue));
     if (q == NULL) {
@@ -330,7 +332,7 @@ NULLを返す関数 SearchCell(Cell *this\_cell,int d), リストの要素をthi
 \subsubsection{実装コードおよびコードの説明}\label{subsubsec:実装コードおよびコードの説明3}
 プログラム\ref{code:three}に、doublylinked\_list.cの主要部を示す。\\ \indent
 Cell *CreateCell(int d, bool is\_head)は引数にint型のd, 先頭かどうかを示すis\_headを取り、mallocでメモリを確保し、
-確保に失敗した場合はプログラムを終了する。dataフィールドにdを代入し、is\_headフィールドにis_headの値を代入して
+確保に失敗した場合はプログラムを終了する。dataフィールドにdを代入し、is\_headフィールドにis\_headの値を代入して
 先頭かどうかを指定する。セルが孤立状態になるようにprevとnextの両方のポインタを自身に設定する。is\_headがfalseの場合
 は、リストに接続されていないことを示すエラーを表示し、最後に生成した新しいセルのポインタを返す。
 void InsertNext(Cell *this\_cell, Cell *p)は引数としてthis\_cellと挿入するポインタpを取る。pのnextをthis\_cellのnext
@@ -341,7 +343,7 @@ nextをthis\_cellに設定し、this\_cellの前のセルのnextをpに、this\_
 を挿入する。
 void DeleteCell(Cell *this\_cell)は引数にthis\_cellを取る。this\_cellが削除対象であれば、その前後のセルをお互いに接続するよ
 うに設定を変更し、this\_cellをリストから切り離す。最後にfreeでthis\_cellのメモリを解放する。
-Cell *SearchCell(Cell *this\_cell, int d)はthis_cellを起点にリストを巡回し、dataフィールドがdと等しいセルを見つけると、そ
+Cell *SearchCell(Cell *this\_cell, int d)はthis\_cellを起点にリストを巡回し、dataフィールドがdと等しいセルを見つけると、そ
 のセルのポインタを返す。見つからなかった場合にはNULLを返す。this\_cellがNULLの場合もNULLを返す。
 void Display(Cell *this\_cell)はthis\_cellがNULLの場合は処理を終了する。それ以外の場合、リストの各セルを巡回し、各セルのdataフィールドを標準出力に表示する。リストの終端に到達すると改行する。
 void ReadFromArray(Cell *head, int arr[], int size)は引数としてヘッドセルheadと追加するデータを含む配列arr, 配列の要素数sizeを受け取る。配列内の各データに対し、新しいセルをCreateCellで作成し、InsertPrevを用いてヘッドセルの前に順に追加していく。
@@ -350,7 +352,7 @@ void ReadFromFile(Cell *head, const char *filename)は引数としてヘッド�
 ファイルを開き、整数データを読み込み、CreateCellとInsertPrevを使ってリストに追加する。読み込みが終わるとファイルを閉る。ファイルが開けなかった場合には標準エラー出力にエラーメッセージを出し、プログラムを終了する。
 void WriteToFile(Cell *head, const char *filename)はファイルを開き、リスト内の各セルのデータを順にファイルに出力する。ファイルが開けない場合はエラーメッセージを出力し、プログラムを終了する。書き込みが完了したらファイルを閉じる。
 
-\begin{lstlisting}[caption=doublylinked\_list.cの主要部, label=code:three, language=C]
+\begin{lstlisting}[caption=doublylinked\_list.cの主要部, label=code:three, language=C,captionpos = b]
 Cell *CreateCell(int d, bool is_head) {
     Cell *new_cell = (Cell *)malloc(sizeof(Cell));
     if (new_cell == NULL) {
